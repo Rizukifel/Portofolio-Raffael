@@ -1,0 +1,1357 @@
+<!doctype html>
+<html lang="id" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio - Creative Developer</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "off-white": "#FAF9F6",
+              "soft-beige": "#F5F1EB",
+              "light-grey": "#E8E6E3",
+              emerald: "#047857",
+              "emerald-dark": "#065F46",
+              "deep-navy": "#1E3A5F",
+              "muted-gold": "#B8860B",
+              "text-primary": "#2D2D2D",
+              "text-secondary": "#5A5A5A",
+            },
+            fontFamily: {
+              poppins: ["Poppins", "sans-serif"],
+              playfair: ["Playfair Display", "serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f5f1eb;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #047857;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #065f46;
+      }
+
+      /* Smooth Scroll */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Loading Animation */
+      .loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #faf9f6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition:
+          opacity 0.5s ease,
+          visibility 0.5s ease;
+      }
+      .loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      .loader-spinner {
+        width: 50px;
+        height: 50px;
+        border: 3px solid #e8e6e3;
+        border-top-color: #047857;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Scroll Reveal Animation */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Navbar Blur Effect */
+      .navbar-blur {
+        backdrop-filter: blur(10px);
+        background: rgba(250, 249, 246, 0.85);
+      }
+
+      /* Hero Animation */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeInRight {
+        from {
+          opacity: 0;
+          transform: translateX(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .animate-fade-up {
+        animation: fadeInUp 1s ease forwards;
+      }
+      .animate-fade-right {
+        animation: fadeInRight 1s ease forwards;
+      }
+      .delay-100 {
+        animation-delay: 0.1s;
+      }
+      .delay-200 {
+        animation-delay: 0.2s;
+      }
+      .delay-300 {
+        animation-delay: 0.3s;
+      }
+      .delay-400 {
+        animation-delay: 0.4s;
+      }
+      .delay-500 {
+        animation-delay: 0.5s;
+      }
+
+      /* Profile Image */
+      .profile-image {
+        box-shadow: 0 25px 50px -12px rgba(4, 120, 87, 0.25);
+      }
+
+      /* Gallery Hover Effect */
+      .gallery-item {
+        overflow: hidden;
+      }
+      .gallery-item img,
+      .gallery-item iframe {
+        transition: transform 0.5s ease;
+      }
+      .gallery-item:hover img,
+      .gallery-item:hover iframe {
+        transform: scale(1.05);
+      }
+
+      /* Lightbox */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s ease,
+          visibility 0.3s ease;
+      }
+      .lightbox.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .lightbox img {
+        max-width: 90%;
+        max-height: 90%;
+        border-radius: 8px;
+      }
+
+      /* Project Auto Scroll */
+      @keyframes scroll-left {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+      .auto-scroll {
+        animation: scroll-left 20s linear infinite;
+      }
+      .auto-scroll:hover {
+        animation-play-state: paused;
+      }
+
+      /* Button Gradient */
+      .btn-gradient {
+        background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+        transition: all 0.3s ease;
+      }
+      .btn-gradient:hover {
+        box-shadow: 0 10px 30px -5px rgba(4, 120, 87, 0.4);
+        transform: translateY(-2px);
+      }
+
+      /* Card Hover */
+      .card-hover {
+        transition: all 0.4s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Skill Bar Animation */
+      .skill-bar {
+        transition: width 1.5s ease;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+      }
+      .mobile-menu.active {
+        transform: translateX(0);
+      }
+      /* SCROLL REVEAL */
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s ease;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* SKILL BAR */
+      .skill-bar {
+        width: 0;
+        transition: width 1.5s ease;
+      }
+    </style>
+  </head>
+
+  <script>
+    window.addEventListener("load", function () {
+      const loader = document.getElementById("loader");
+      loader.classList.add("hidden");
+    });
+  </script>
+
+  <script>
+function filterGallery(category) {
+  const items = document.querySelectorAll(".gallery-item");
+  const buttons = document.querySelectorAll(".filter-btn");
+
+  // Update active button
+  buttons.forEach(btn => {
+    btn.classList.remove("bg-emerald", "text-white");
+    btn.classList.add("bg-light-grey", "text-text-secondary");
+  });
+
+  const activeBtn = document.querySelector(`[data-filter="${category}"]`);
+  activeBtn.classList.add("bg-emerald", "text-white");
+  activeBtn.classList.remove("bg-light-grey", "text-text-secondary");
+
+  // Filter items
+  items.forEach(item => {
+    if (category === "all") {
+      item.style.display = "block";
+    } else {
+      if (item.classList.contains(category)) {
+        item.style.display = "block";
+      } else {
+        item.style.display = "none";
+      }
+    }
+  });
+}
+</script>
+
+  <body
+    class="h-full bg-off-white font-poppins text-text-primary overflow-x-hidden"
+  >
+    <!-- ==================== LOADER ==================== -->
+    <div class="loader" id="loader">
+      <div class="loader-spinner"></div>
+    </div>
+
+    <!-- ==================== LIGHTBOX ==================== -->
+    <div class="lightbox" id="lightbox">
+      <button
+        onclick="closeLightbox()"
+        class="absolute top-6 right-6 text-white text-4xl hover:text-emerald transition-colors"
+      >
+        &times;
+      </button>
+      <img src="" alt="Lightbox Image" id="lightbox-img" />
+    </div>
+
+    <!-- ==================== NAVBAR ==================== -->
+    <nav
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <!-- Logo -->
+          <a
+            href="#profile"
+            class="text-2xl font-playfair font-bold text-emerald"
+          >
+            <span id="nav-logo">Portfolio</span>
+          </a>
+
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex items-center space-x-8">
+            <a href="#profile" class="nav-link text-text-secondary hover:text-emerald transition-colors font-medium">Profile</a>
+            <a href="#about" class="nav-link text-text-secondary hover:text-emerald transition-colors font-medium">About Me</a>
+            <a href="#gallery" class="nav-link text-text-secondary hover:text-emerald transition-colors font-medium">Gallery</a>
+            <a href="#Insights Video" class="nav-link text-text-secondary hover:text-emerald transition-colors font-medium">Insights Video</a>
+            <a href="#project" class="nav-link text-text-secondary hover:text-emerald transition-colors font-medium">Project</a>
+            <a href="#resume" class="nav-link text-text-secondary hover:text-emerald transition-colors font-medium">Resume</a>
+          </div>
+
+          <!-- CTA Button -->
+          <div class="hidden md:block">
+            <a
+              href="#resume"
+              class="btn-gradient px-6 py-3 rounded-full text-white font-medium flex items-center space-x-2"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+              <span>Download CV</span>
+            </a>
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button onclick="toggleMobileMenu()" class="md:hidden text-text-primary">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Panel -->
+      <div
+        id="mobile-menu"
+        class="mobile-menu fixed top-0 right-0 h-full w-72 bg-off-white shadow-2xl md:hidden"
+      >
+        <div class="p-6">
+          <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-text-primary">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+
+          <div class="mt-16 space-y-6">
+            <a href="#profile" onclick="toggleMobileMenu()" class="block text-lg text-text-secondary hover:text-emerald transition-colors">Profile</a>
+            <a href="#about" onclick="toggleMobileMenu()" class="block text-lg text-text-secondary hover:text-emerald transition-colors">About Me</a>
+            <a href="#gallery" onclick="toggleMobileMenu()" class="block text-lg text-text-secondary hover:text-emerald transition-colors">Gallery</a>
+            <a href="#project" onclick="toggleMobileMenu()" class="block text-lg text-text-secondary hover:text-emerald transition-colors">Project</a>
+            <a href="#resume" onclick="toggleMobileMenu()" class="block text-lg text-text-secondary hover:text-emerald transition-colors">Resume</a>
+            <a href="#resume" class="btn-gradient inline-block px-6 py-3 rounded-full text-white font-medium mt-4">
+              Download CV
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ==================== NAVBAR STYLE ==================== -->
+    <style>
+      .navbar-scrolled {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.7);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      }
+    </style>
+
+    <!-- ==================== NAVBAR SCROLL SCRIPT ==================== -->
+    <script>
+      const navbar = document.getElementById("navbar");
+
+      window.addEventListener("scroll", function () {
+        if (window.scrollY > 50) {
+          navbar.classList.add("navbar-scrolled");
+        } else {
+          navbar.classList.remove("navbar-scrolled");
+        }
+      });
+    </script>
+
+    <!-- ==================== HERO / PROFILE SECTION ==================== -->
+    <section
+      id="profile"
+      class="min-h-screen flex items-center pt-20 bg-gradient-to-br from-off-white via-soft-beige to-off-white"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <!-- Left Content -->
+          <div class="order-2 lg:order-1 text-center lg:text-left">
+            <p
+              class="text-emerald font-medium tracking-wider uppercase mb-4 opacity-0 animate-fade-up"
+            >
+              Welcome to my portfolio
+            </p>
+            <h1
+              id="hero-name"
+              class="text-4xl sm:text-5xl lg:text-6xl font-playfair font-bold text-text-primary leading-tight mb-4 opacity-0 animate-fade-up delay-100"
+            >
+              Muhamad Rizki Raffael
+            </h1>
+            <p
+              id="hero-tagline"
+              class="text-xl sm:text-2xl text-emerald font-medium mb-4 opacity-0 animate-fade-up delay-200"
+            >
+              Creative Developer - Digital Strategist - Business Manajement
+            </p>
+            <p
+              id="hero-birth"
+              class="text-text-secondary mb-8 opacity-0 animate-fade-up delay-300"
+            >
+              📍 Bogor, 20 Januari 2008
+            </p>
+            <div
+              class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start opacity-0 animate-fade-up delay-400"
+            >
+              <a
+                href="#project"
+                class="btn-gradient px-8 py-4 rounded-full text-white font-semibold text-lg"
+              >
+                View My Work
+              </a>
+              <a
+                href="#resume"
+                class="px-8 py-4 rounded-full border-2 border-emerald text-emerald font-semibold text-lg hover:bg-emerald hover:text-white transition-all"
+              >
+                Download CV
+              </a>
+            </div>
+          </div>
+
+          <!-- Right Content - Profile Image -->
+          <div
+            class="order-1 lg:order-2 flex justify-center opacity-0 animate-fade-right delay-300"
+          >
+            <div class="relative">
+              <div
+                class="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full bg-gradient-to-br from-emerald to-emerald-dark p-1 profile-image"
+              >
+                <div
+                  class="w-full h-full rounded-full bg-soft-beige flex items-center justify-center overflow-hidden"
+                >
+                <img src="images/Profile.jpg" 
+                      alt="Profile Photo"
+                      class="w-full h-full object-cover object-[center_20%]"/>
+                </div>
+
+              <!-- Decorative Elements -->
+              <div
+                class="absolute -top-4 -right-4 w-8 h-8 bg-muted-gold rounded-full opacity-60"
+              ></div>
+              <div
+                class="absolute -bottom-6 -left-6 w-12 h-12 bg-emerald rounded-full opacity-40"
+              ></div>
+              <div
+                class="absolute top-1/2 -right-8 w-6 h-6 bg-deep-navy rounded-full opacity-30"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ABOUT ME SECTION ==================== -->
+    <section id="about" class="py-20 bg-soft-beige">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 reveal">
+          <p class="text-emerald font-medium tracking-wider uppercase mb-4">
+            Get To Know Me
+          </p>
+          <h2
+            class="text-3xl sm:text-4xl lg:text-5xl font-playfair font-bold text-text-primary"
+          >
+            About Me
+          </h2>
+        </div>
+
+        <!-- About Me Description -->
+        <!-- About Me Interactive Intro -->
+        <div class="grid lg:grid-cols-2 gap-12 items-center mb-20 reveal">
+
+          <!-- Left Side - Description -->
+          <div>
+            <h3 class="text-2xl font-playfair font-bold text-text-primary mb-6">
+              Hello, I'm <span class="text-emerald">Muhamad Rizki Raffael</span> 👋
+            </h3>
+
+            <p class="text-text-secondary leading-relaxed mb-6">
+              I was born in <span class="font-medium text-text-primary">Bogor, 20 Januari 2008</span> 
+              and I am currently <span class="font-medium text-text-primary">18 years old</span>. 
+              I live in <span class="font-medium text-text-primary">Bogor, Jawa Barat</span> 
+              and I am studying at <span class="font-medium text-text-primary">SMKN 3 Bogor Jurusan TKJ</span>.
+            </p>
+
+            <p class="text-text-secondary leading-relaxed mb-6">
+              I have a strong passion for <span class="text-emerald font-medium">Fokus di bidang IT dan Marketing</span>, 
+              especially in <span class="font-medium text-text-primary">IT Project Manager</span>. 
+              I enjoy <span class="font-medium text-text-primary">Workout and Study</span>, 
+              which continuously shape my creativity and technical growth.
+            </p>
+
+            <p class="text-text-secondary leading-relaxed">
+              My goal is to build a career in <span class="font-medium text-text-primary">PT Freeport</span> 
+              as a <span class="text-emerald font-semibold">IT Project Manager</span>, 
+              where I can contribute, innovate, and grow professionally.
+            </p>
+          </div>
+
+          <!-- Right Side - Highlight Cards -->
+          <div class="grid grid-cols-2 gap-6">
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg text-center card-hover">
+              <h4 class="text-emerald text-3xl font-bold mb-2">🎯</h4>
+              <p class="font-semibold text-text-primary">Career Goal</p>
+              <p class="text-sm text-text-secondary mt-2">
+                Becoming a IT Project Manager
+              </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg text-center card-hover">
+              <h4 class="text-muted-gold text-3xl font-bold mb-2">💡</h4>
+              <p class="font-semibold text-text-primary">Main Interest</p>
+              <p class="text-sm text-text-secondary mt-2">
+                Manajemen Bisnis, IT dan Invest
+              </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg text-center card-hover">
+              <h4 class="text-deep-navy text-3xl font-bold mb-2">📍</h4>
+              <p class="font-semibold text-text-primary">Location</p>
+              <p class="text-sm text-text-secondary mt-2">
+                Bogor
+              </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-lg text-center card-hover">
+              <h4 class="text-emerald text-3xl font-bold mb-2">🚀</h4>
+              <p class="font-semibold text-text-primary">Vision</p>
+              <p class="text-sm text-text-secondary mt-2">
+                Continuous Growth & Innovation
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="mb-16 reveal">
+          <h3
+            class="text-2xl font-playfair font-bold text-text-primary mb-8 text-center"
+          >
+            💼 Professional Experience
+          </h3>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
+              <div class="flex items-start gap-4">
+                <div
+                  class="w-12 h-12 bg-emerald/10 rounded-xl flex items-center justify-center flex-shrink-0"
+                >
+                  <svg
+                    class="w-6 h-6 text-emerald"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-text-primary">
+                    Frontend Developer
+                  </h4>
+                  <p class="text-emerald text-sm mb-2">
+                    Tech Company • 2022 - Present
+                  </p>
+                  <p class="text-text-secondary text-sm">
+                    Developing responsive web applications using modern
+                    frameworks and best practices.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
+              <div class="flex items-start gap-4">
+                <div
+                  class="w-12 h-12 bg-muted-gold/10 rounded-xl flex items-center justify-center flex-shrink-0"
+                >
+                  <svg
+                    class="w-6 h-6 text-muted-gold"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-semibold text-text-primary">
+                    UI/UX Designer
+                  </h4>
+                  <p class="text-muted-gold text-sm mb-2">
+                    Creative Agency • 2020 - 2022
+                  </p>
+                  <p class="text-text-secondary text-sm">
+                    Designed user interfaces and experiences for various digital
+                    products and platforms.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills Grid -->
+        <div class="grid lg:grid-cols-2 gap-8">
+          <!-- Soft Skills -->
+          <div class="reveal">
+            <h3
+              class="text-2xl font-playfair font-bold text-text-primary mb-8 text-center"
+            >
+              🧠 Soft Skills
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div
+                class="bg-white rounded-2xl p-6 text-center card-hover shadow-lg"
+              >
+                <div
+                  class="w-14 h-14 bg-emerald/10 rounded-full flex items-center justify-center mx-auto mb-4"
+                >
+                  <svg
+                    class="w-7 h-7 text-emerald"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-text-primary">Leadership</h4>
+              </div>
+
+              <div
+                class="bg-white rounded-2xl p-6 text-center card-hover shadow-lg"
+              >
+                <div
+                  class="w-14 h-14 bg-deep-navy/10 rounded-full flex items-center justify-center mx-auto mb-4"
+                >
+                  <svg
+                    class="w-7 h-7 text-deep-navy"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-text-primary">Communication</h4>
+              </div>
+
+              <div
+                class="bg-white rounded-2xl p-6 text-center card-hover shadow-lg"
+              >
+                <div
+                  class="w-14 h-14 bg-muted-gold/10 rounded-full flex items-center justify-center mx-auto mb-4"
+                >
+                  <svg
+                    class="w-7 h-7 text-muted-gold"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-text-primary">Problem Solving</h4>
+              </div>
+
+              <div
+                class="bg-white rounded-2xl p-6 text-center card-hover shadow-lg"
+              >
+                <div
+                  class="w-14 h-14 bg-emerald/10 rounded-full flex items-center justify-center mx-auto mb-4"
+                >
+                  <svg
+                    class="w-7 h-7 text-emerald"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                    />
+                  </svg>
+                </div>
+                <h4 class="font-semibold text-text-primary">
+                  Critical Thinking
+                </h4>
+              </div>
+            </div>
+          </div>
+
+        <!-- Hard Skills -->
+        <div class="reveal" id="skills">
+          <h3
+            class="text-2xl font-playfair font-bold text-text-primary mb-8 text-center"
+          >
+            💻 Hard Skills
+          </h3>
+
+          <div class="bg-white rounded-2xl p-8 shadow-lg">
+            <div class="space-y-6">
+
+              <!-- Skill Item -->
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="font-medium text-text-primary">Web Development</span>
+                  <span class="text-emerald-600 font-semibold">90%</span>
+                </div>
+                <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                <section id="skills" class="reveal">
+                  <div class="bg-gray-200 h-2 rounded-full">
+                    <div class="skill-bar bg-emerald h-2 rounded-full" data-width="90%"></div>
+                  </div>
+                </section>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="font-medium text-text-primary">UI/UX Design</span>
+                  <span class="text-emerald-600 font-semibold">83%</span>
+                </div>
+                <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                  <section id="skills" class="reveal">
+                  <div class="bg-gray-200 h-2 rounded-full">
+                  <div class="skill-bar bg-emerald h-2 rounded-full" data-width="83%"></div>
+                  </div>
+                  </section>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="font-medium text-text-primary">Digital Marketing</span>
+                  <span class="text-emerald-600 font-semibold">78%</span>
+                </div>
+                <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                <section id="skills" class="reveal">
+                  <div class="bg-gray-200 h-2 rounded-full">
+                    <div class="skill-bar bg-emerald h-2 rounded-full" data-width="78%"></div>
+                  </div>
+                </section>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between mb-2">
+                  <span class="font-medium text-text-primary">Data Analysis</span>
+                  <span class="text-emerald-600 font-semibold">73%</span>
+                </div>
+                <div class="h-3 bg-gray-200 rounded-full overflow-hidden">
+                <section id="skills" class="reveal">
+                  <div class="bg-gray-200 h-2 rounded-full">
+                    <div class="skill-bar bg-emerald h-2 rounded-full" data-width="73%"></div>
+                  </div>
+                </section>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- ==================== GALLERY SECTION ==================== -->
+    <section id="gallery" class="py-20 bg-off-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 reveal">
+          <p class="text-emerald font-medium tracking-wider uppercase mb-4">
+            My Collection
+          </p>
+          <h2
+            class="text-3xl sm:text-4xl lg:text-5xl font-playfair font-bold text-text-primary"
+          >
+            Gallery & Assets
+          </h2>
+          <p class="text-text-secondary mt-4 max-w-2xl mx-auto">
+            A curated collection of my creative works, capturing moments and
+            projects that define my journey.
+          </p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex justify-center gap-4 mb-12 reveal">
+          <button
+            onclick="filterGallery('all')"
+            class="filter-btn active px-6 py-3 rounded-full font-medium transition-all bg-emerald text-white"
+            data-filter="all"
+          >
+            All
+          </button>
+          <button
+            onclick="filterGallery('photo')"
+            class="filter-btn px-6 py-3 rounded-full font-medium transition-all bg-light-grey text-text-secondary hover:bg-emerald hover:text-white"
+            data-filter="photo"
+          >
+            Photos
+          </button>
+          <button
+            onclick="filterGallery('video')"
+            class="filter-btn px-6 py-3 rounded-full font-medium transition-all bg-light-grey text-text-secondary hover:bg-emerald hover:text-white"
+            data-filter="video"
+          >
+            Videos
+          </button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          id="gallery-grid"
+        >
+        <!-- Photo Items -->
+
+        <div class="gallery-item photo reveal rounded-2xl overflow-hidden shadow-lg cursor-pointer card-hover"
+            onclick="openLightbox(this)">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="images/rafa1.jpeg"
+                alt="Creative Project 1"
+                class="w-full h-full object-cover hover:scale-110 transition duration-500">
+          </div>
+          <div class="p-4 bg-white">
+            <h3 class="font-semibold text-text-primary">Nature</h3>
+            <p class="text-sm text-text-secondary">Photography</p>
+          </div>
+        </div>
+
+
+        <div class="gallery-item photo reveal rounded-2xl overflow-hidden shadow-lg cursor-pointer card-hover"
+            onclick="openLightbox(this)">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="images/rafa2.jpeg"
+                alt="Urban Exploration"
+                class="w-full h-full object-cover hover:scale-110 transition duration-500">
+          </div>
+          <div class="p-4 bg-white">
+            <h3 class="font-semibold text-text-primary">Urban Exploration</h3>
+            <p class="text-sm text-text-secondary">Photography</p>
+          </div>
+        </div>
+
+
+        <div class="gallery-item photo reveal rounded-2xl overflow-hidden shadow-lg card-hover">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            <img src="images/rafa3.jpeg"
+                alt="Motivasi Diri"
+                class="w-full h-full object-cover">
+            <div class="absolute top-3 right-3 bg-emerald text-white text-xs px-2 py-1 rounded-full">
+              Video
+            </div>
+          </div>
+          <div class="p-4 bg-white">
+            <h3 class="font-semibold text-text-primary">Project</h3>
+            <p class="text-sm text-text-secondary">Website Development Process</p>
+          </div>
+        </div>
+
+
+        <div class="gallery-item photo reveal rounded-2xl overflow-hidden shadow-lg cursor-pointer card-hover"
+            onclick="openLightbox(this)">
+          <div class="aspect-[4/3] overflow-hidden">
+            <img src="images/rafa4.jpeg"
+                alt="Nature Series"
+                class="w-full h-full object-cover hover:scale-110 transition duration-500">
+          </div>
+          <div class="p-4 bg-white">
+            <h3 class="font-semibold text-text-primary">internship</h3>
+            <p class="text-sm text-text-secondary">Field Work Practise at The IPB Rectorate</p>
+          </div>
+        </div>
+
+
+        <div class="gallery-item video reveal rounded-2xl overflow-hidden shadow-lg card-hover">
+          <div class="aspect-[4/3] overflow-hidden relative">
+            
+            <video 
+              class="w-full h-full object-cover"
+              controls
+              preload="metadata">
+              <source src="video/videorafa1.mp4" type="video/mp4">
+              Browser kamu tidak mendukung video.
+            </video>
+
+            <div class="absolute top-3 right-3 bg-emerald text-white text-xs px-2 py-1 rounded-full">
+              Video
+            </div>
+
+          </div>
+
+          <div class="p-4 bg-white">
+            <h3 class="font-semibold text-text-primary">Behind The Scenes</h3>
+            <p class="text-sm text-text-secondary">Video Content</p>
+          </div>
+        </div>
+
+
+        <div class="gallery-item video reveal rounded-2xl overflow-hidden shadow-lg card-hover">
+          <div class="aspect-[4/3] overflow-hidden">
+
+            <video 
+              class="w-full h-full object-cover"
+              controls
+              preload="metadata">
+              <source src="video/videorafa2.mp4" type="video/mp4">
+              Browser kamu tidak mendukung video.
+            </video>
+
+          </div>
+
+          <div class="p-4 bg-white">
+            <h3 class="font-semibold text-text-primary">Enjoyment</h3>
+            <p class="text-sm text-text-secondary">Video Content</p>
+          </div>
+        </div>
+    </section>
+
+<!-- ==================== VIDEO MOTIVASI SECTION ==================== -->
+<section id="Insights Video" class="py-20 bg-off-white">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center mb-12">
+      <p class="text-emerald font-medium tracking-wider uppercase mb-4">
+        Featured Work
+      </p>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-playfair font-bold text-text-primary">
+        Motivasi Diri
+      </h2>
+    </div>
+
+    <!-- VIDEO CARD -->
+    <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+      
+      <!-- VIDEO WRAPPER (Responsive 16:9) -->
+      <div style="position:relative;padding-top:56.25%;">
+        <iframe
+          src="https://www.youtube.com/embed/-6cfgyrtuIc"
+          title="YouTube video player"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="p-6">
+        <h3 class="text-xl font-semibold mb-2">
+          My Video Motivasi
+        </h3>
+        <p class="text-gray-600 text-sm">
+          A short Motivasi Diri of my recent creative work.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== Project Experience ==================== -->
+      <section id="project" class="py-20 bg-off-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden reveal">
+          <div class="lg:flex">
+            <!-- Project Info -->
+            <div class="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+              <span
+                class="inline-block bg-emerald/10 text-emerald px-4 py-2 rounded-full text-sm font-medium mb-4 w-fit"
+              >
+                Web Application
+              </span>
+              <h3
+                class="text-2xl lg:text-3xl font-playfair font-bold text-text-primary mb-4"
+              >
+                Web Layanan Arsip IPB
+              </h3>
+              <p class="text-text-secondary leading-relaxed mb-6">
+                Web Layanan Arsip IPB merupakan sistem digital yang dirancang
+                untuk mempermudah proses pengelolaan dan pencarian arsip secara
+                efisien dan terstruktur. Platform ini mengintegrasikan sistem
+                manajemen dokumen dengan antarmuka modern untuk meningkatkan
+                produktivitas serta aksesibilitas pengguna.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-6">
+                <span
+                  class="bg-light-grey px-3 py-1 rounded-full text-sm text-text-secondary"
+                  >HTML</span
+                >
+                <span
+                  class="bg-light-grey px-3 py-1 rounded-full text-sm text-text-secondary"
+                  >CSS</span
+                >
+                <span
+                  class="bg-light-grey px-3 py-1 rounded-full text-sm text-text-secondary"
+                  >JavaScript</span
+                >
+                <span
+                  class="bg-light-grey px-3 py-1 rounded-full text-sm text-text-secondary"
+                  >PHP</span
+                >
+              </div>
+              <a
+                href="#"
+                class="btn-gradient inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-medium w-fit"
+              >
+                View Project
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </a>
+            </div>
+          <!-- Project Images - Auto Scroll -->
+          <div class="lg:w-1/2 bg-soft-beige p-8 overflow-hidden">
+            <div class="relative">
+              <div class="auto-scroll flex gap-6" style="width: max-content">
+
+                <!-- FOTO 1 -->
+                <div class="relative group flex-shrink-0">
+                  <img
+                    src="images/w1.jpeg"
+                    alt="Project 1"
+                    class="w-72 h-48 object-cover rounded-2xl shadow-xl transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 flex items-end p-4">
+                    <p class="text-white text-sm font-semibold">Project Website UI</p>
+                  </div>
+                </div>
+
+                <!-- FOTO 2 -->
+                <div class="relative group flex-shrink-0">
+                  <img
+                    src="images/w2.jpeg"
+                    alt="Project 2"
+                    class="w-72 h-48 object-cover rounded-2xl shadow-xl transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 flex items-end p-4">
+                    <p class="text-white text-sm font-semibold">Landing Page Design</p>
+                  </div>
+                </div>
+
+                <!-- FOTO 3 -->
+                <div class="relative group flex-shrink-0">
+                  <img
+                    src="images/w3.jpeg"
+                    alt="Project 3"
+                    class="w-72 h-48 object-cover rounded-2xl shadow-xl transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 flex items-end p-4">
+                    <p class="text-white text-sm font-semibold">E-Commerce Project</p>
+                  </div>
+                </div>
+
+                <!-- DUPLICATE UNTUK INFINITE SCROLL -->
+                <div class="relative group flex-shrink-0">
+                  <img
+                    src="images/w1.jpeg"
+                    alt="Project 1"
+                    class="w-72 h-48 object-cover rounded-2xl shadow-xl transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+
+                <div class="relative group flex-shrink-0">
+                  <img
+                    src="images/w2.jpeg"
+                    alt="Project 2"
+                    class="w-72 h-48 object-cover rounded-2xl shadow-xl transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+
+                <div class="relative group flex-shrink-0">
+                  <img
+                    src="images/w3.jpeg"
+                    alt="Project 3"
+                    class="w-72 h-48 object-cover rounded-2xl shadow-xl transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== RESUME SECTION ==================== -->
+    <section
+      id="resume"
+      class="py-20 bg-gradient-to-br from-emerald/5 via-soft-beige to-deep-navy/5"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden reveal">
+          <div class="lg:flex items-center">
+            <!-- Left Content -->
+            <div class="lg:w-2/3 p-8 lg:p-16">
+              <p class="text-emerald font-medium tracking-wider uppercase mb-4">
+                Ready to Collaborate?
+              </p>
+
+              <h2
+                class="text-3xl sm:text-4xl lg:text-5xl font-playfair font-bold text-text-primary mb-6"
+              >
+                Let's Work Together
+              </h2>
+
+              <p
+                class="text-text-secondary text-lg leading-relaxed mb-8 max-w-xl"
+              >
+                Saya selalu antusias untuk menghadapi tantangan baru dan berkolaborasi
+                dengan tim yang bersemangat. Baik Anda memiliki proyek yang ingin dikerjakan
+                atau hanya ingin terhubung, jangan ragu untuk menghubungi saya!
+              </p>
+
+              <div class="flex flex-wrap gap-4">
+                <a
+                  href="cv/cv-rzkyrafa.pdf"
+                  target="_blank"
+                  class="bg-emerald hover:bg-emerald-dark text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  View CV
+                </a>
+
+                <a
+                  href="cv/cv-rzkyrafa.pdf"
+                  download
+                  class="border-2 border-emerald text-emerald hover:bg-emerald hover:text-white px-8 py-4 rounded-full font-semibold transition-all duration-300"
+                >
+                  Download CV
+                </a>
+              </div>
+            </div>
+
+            <!-- Right Visual -->
+            <div
+              class="lg:w-1/3 bg-gradient-to-br from-emerald to-emerald-dark p-12 flex items-center justify-center"
+            >
+              <div class="text-white text-center">
+                <h3 class="text-2xl font-bold mb-4">Resume</h3>
+                <p class="opacity-90">
+                  Klik tombol untuk melihat detail lengkap pengalaman dan skill
+                  profesional saya dalam format PDF.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="bg-white border-t pt-16 pb-10">
+  <div class="max-w-7xl mx-auto px-4">
+
+    <!-- Contact Section -->
+    <div class="text-center mb-10">
+      <h3 class="text-2xl font-bold text-emerald mb-4">Let's Connect</h3>
+      <p class="text-text-secondary mb-6">
+        Feel free to reach out for collaboration or just a friendly hello 👋
+      </p>
+
+      <!-- Social Icons -->
+      <div class="flex justify-center items-center gap-6">
+
+        <!-- WhatsApp -->
+        <a href="https://wa.me/6281387593272" target="_blank"
+          class="group w-12 h-12 flex items-center justify-center rounded-full bg-green-100 hover:bg-green-500 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1">
+          <svg class="w-6 h-6 text-green-600 group-hover:text-white transition"
+            fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20.52 3.48A11.83 11.83 0 0012.03 0C5.38 0 0 5.38 0 12.03c0 2.12.56 4.2 1.63 6.03L0 24l6.09-1.6a12.05 12.05 0 005.94 1.52h.01c6.65 0 12.03-5.38 12.03-12.03 0-3.2-1.24-6.21-3.55-8.41z"/>
+          </svg>
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://www.youtube.com/@MuhamadRizkiRaffael" target="_blank"
+          class="group w-12 h-12 flex items-center justify-center rounded-full bg-red-100 hover:bg-red-600 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1">
+          <svg class="w-6 h-6 text-red-600 group-hover:text-white transition"
+            fill="currentColor" viewBox="0 0 24 24">
+            <path d="M23.5 6.2a2.9 2.9 0 00-2-2C19.7 3.5 12 3.5 12 3.5s-7.7 0-9.5.7a2.9 2.9 0 00-2 2A30 30 0 000 12a30 30 0 00.5 5.8 2.9 2.9 0 002 2c1.8.7 9.5.7 9.5.7s7.7 0 9.5-.7a2.9 2.9 0 002-2A30 30 0 0024 12a30 30 0 00-.5-5.8zM9.5 15.5v-7l6 3.5-6 3.5z"/>
+          </svg>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://instagram.com/rzkyravaaa" target="_blank"
+          class="group w-12 h-12 flex items-center justify-center rounded-full bg-pink-100 hover:bg-pink-500 transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1">
+          <svg class="w-6 h-6 text-pink-600 group-hover:text-white transition"
+            fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.2.1 4.7 1.7 4.8 4.8.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 3.2-1.7 4.7-4.8 4.8-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-3.2-.1-4.7-1.7-4.8-4.8-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-3.2 1.7-4.7 4.8-4.8 1.3-.1 1.7-.1 4.9-.1z"/>
+          </svg>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="text-center text-text-secondary border-t pt-6">
+      © 2026 Rzkyrafa Fael. All rights reserved.
+    </div>
+
+  </div>
+</footer>
+    <script>
+      const reveals = document.querySelectorAll(".reveal");
+
+      function revealOnScroll() {
+        const windowHeight = window.innerHeight;
+
+        reveals.forEach((element) => {
+          const elementTop = element.getBoundingClientRect().top;
+
+          if (elementTop < windowHeight - 100) {
+            element.classList.add("active");
+          }
+        });
+      }
+
+      window.addEventListener("scroll", revealOnScroll);
+      window.addEventListener("load", revealOnScroll);
+    </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  /* Scroll Reveal */
+  const reveals = document.querySelectorAll(".reveal");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+      }
+    });
+  }, { threshold: 0.2 });
+
+  reveals.forEach(el => observer.observe(el));
+
+
+  /* Skill Bar Animation */
+  const skillBars = document.querySelectorAll(".skill-bar");
+
+  const skillObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bars = entry.target.querySelectorAll(".skill-bar");
+        bars.forEach(bar => {
+          bar.style.width = bar.getAttribute("data-width");
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  const skillsSection = document.querySelector("#skills");
+  if (skillsSection) {
+    skillObserver.observe(skillsSection);
+  }
+
+});
+</script>
+
+  </body>
+</html>
